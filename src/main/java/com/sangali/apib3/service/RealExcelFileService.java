@@ -75,4 +75,46 @@ public class RealExcelFileService {
 
         return linhaExcels;
     }
+
+    public List<LinhaExcel> lerExcelExtratoNegociacao() throws IOException {
+        File diretorio = new File("D:\\WorkspaceJava\\api-b3\\extrato\\negociacao");
+        File[] arquivos = diretorio.listFiles();
+
+        List<LinhaExcel> linhaExcels = new ArrayList<>();
+        // Para cada arquivos excel na pasta
+        Arrays.stream(arquivos).forEach(arquivo -> {
+
+            try {
+                FileInputStream file = new FileInputStream(arquivo);
+                Workbook workbook = WorkbookFactory.create(file);
+                Sheet sheet = workbook.getSheetAt(0);
+
+                Iterator<Row> rowIterator = sheet.rowIterator();
+
+                // ignorar o header do excel ou a primeira linha
+                rowIterator.next();
+
+                while (rowIterator.hasNext()) {
+                    Row row = rowIterator.next();
+
+                    LinhaExcel linhaExcel = new LinhaExcel();
+
+                    linhaExcel.setDataOperacao(LocalDate.parse(row.getCell(0).getStringCellValue(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                    linhaExcel.setTipoMovimentacao(row.getCell(1).getStringCellValue());
+                    linhaExcel.setProduto(row.getCell(5).getStringCellValue());
+                    linhaExcel.setInstituicao(row.getCell(4).getStringCellValue());
+                    linhaExcel.setQuantidade((int) row.getCell(6).getNumericCellValue());
+                    linhaExcel.setPrecoUnitario(BigDecimal.valueOf(row.getCell(7).getNumericCellValue()));
+                    linhaExcel.setValorOperacao(BigDecimal.valueOf(row.getCell(8).getNumericCellValue()));
+
+                    linhaExcels.add(linhaExcel);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        });
+
+        return linhaExcels;
+    }
 }
