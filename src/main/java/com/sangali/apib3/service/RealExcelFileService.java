@@ -117,4 +117,68 @@ public class RealExcelFileService {
 
         return linhaExcels;
     }
+    public List<LinhaExcel> lerExcelTransactions() throws IOException {
+        File diretorio = new File("D:\\WorkspaceJava\\api-b3\\transactions");
+        File[] arquivos = diretorio.listFiles();
+
+        List<LinhaExcel> linhaExcels = new ArrayList<>();
+        // Para cada arquivos excel na pasta
+        Arrays.stream(arquivos).forEach(arquivo -> {
+
+            try {
+                FileInputStream file = new FileInputStream(arquivo);
+                Workbook workbook = WorkbookFactory.create(file);
+                Sheet sheet = workbook.getSheetAt(0);
+
+                Iterator<Row> rowIterator = sheet.rowIterator();
+
+                // ignorar o header do excel ou a primeira linha
+                rowIterator.next();
+
+                while (rowIterator.hasNext()) {
+                    Row row = rowIterator.next();
+
+                    LinhaExcel linhaExcel = new LinhaExcel();
+
+                    if (row.getCell(0).getStringCellValue().contains("***END OF FILE***")){
+                        continue;
+                    }
+
+                    linhaExcel.setDataOperacao(LocalDate.parse(row.getCell(0).getStringCellValue(), DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+                    linhaExcel.setTipoMovimentacao(row.getCell(2).getStringCellValue());
+                    try {
+                        linhaExcel.setQuantidade((int) row.getCell(3).getNumericCellValue());
+                    }catch (Exception e){
+                        System.out.println(e);
+                        linhaExcel.setQuantidade(0);
+                    }
+                    try{
+                        linhaExcel.setProduto(row.getCell(4).getStringCellValue());
+
+                    }catch (Exception e){
+                        linhaExcel.setProduto("");
+                        System.out.println(e);
+                    }
+
+                    try{
+                        linhaExcel.setPrecoUnitario(BigDecimal.valueOf(row.getCell(5).getNumericCellValue()));
+
+                    }catch (Exception e){
+                        System.out.println(e);
+                        linhaExcel.setPrecoUnitario(BigDecimal.valueOf(0));
+
+                    }
+                    linhaExcel.setValorOperacao(BigDecimal.valueOf(Double.parseDouble(row.getCell(7).getStringCellValue())));
+
+                    linhaExcels.add(linhaExcel);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        });
+
+        return linhaExcels;
+    }
+
 }

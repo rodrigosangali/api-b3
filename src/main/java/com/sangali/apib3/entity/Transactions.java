@@ -22,13 +22,11 @@ public class Transactions {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private LocalDate dataOperacao;
+
     private String produto;
 
-    private LocalDate dataPagamento;
-
     private String tipoEvento;
-
-    private String instituicao;
 
     private Integer quantidade;
 
@@ -37,13 +35,12 @@ public class Transactions {
     private BigDecimal valorOperacao;
 
 
-    public Transactions(LinhaExcel proventos) {
-        this.dataPagamento = proventos.getDataOperacao();
-        this.tipoEvento = proventos.getTipoMovimentacao();
-        this.produto = proventos.getProduto();
-        this.instituicao = proventos.getInstituicao();
-        this.quantidade = proventos.getQuantidade();
-        this.precoUnitario = proventos.getPrecoUnitario();
-        this.valorOperacao = proventos.getValorOperacao();
+    public Transactions(LinhaExcel transactions) {
+        this.dataOperacao = transactions.getDataOperacao();
+        this.tipoEvento = transactions.getTipoMovimentacao();
+        this.produto = transactions.getProduto();
+        this.quantidade = transactions.getQuantidade();
+        this.precoUnitario = transactions.getPrecoUnitario();
+        this.valorOperacao = transactions.getValorOperacao();
     }
 }

@@ -26,7 +26,7 @@ public class TransactionsController {
     @Transactional
     public void cadastrarTransactions() throws IOException {
         realExcelFileService = new RealExcelFileService();
-        List<LinhaExcel> linhasExcel = realExcelFileService.lerExcelExtratoNegociacao();
+        List<LinhaExcel> linhasExcel = realExcelFileService.lerExcelTransactions();
 
         linhasExcel.forEach( linha -> {
             transactionsRepository.save(new Transactions(linha));
