@@ -7,9 +7,7 @@ import com.sangali.apib3.repository.ExtratoNegociacaoRepository;
 import com.sangali.apib3.service.RealExcelFileService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -32,5 +30,26 @@ public class Extrato {
         linhasExcel.forEach( linha -> {
             extratoNegociacaoRepository.save(new ExtratoNegociacao(linha));
         });
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping(value = "/negociacao")
+    public List<ExtratoNegociacao> consultarExtratoNegociacao() {
+        return extratoNegociacaoRepository.findAll();
+    }
+
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping(value = "/negociacao/{produto}")
+    public List<ExtratoNegociacao> consultarNegociacoesPorAcao(@PathVariable String produto) {
+        return extratoNegociacaoRepository.findByCodProduto(produto);
+    }
+
+    // Mesma consulta de cima usando JPQL
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping(value = "/negociacao/JPQL/{produtoJPQL}")
+    public List<ExtratoNegociacao> consultarNegociacoesPorAcaoJPQL(@PathVariable String produtoJPQL) {
+
+        return extratoNegociacaoRepository.procuraPorProduto(produtoJPQL);
     }
 }

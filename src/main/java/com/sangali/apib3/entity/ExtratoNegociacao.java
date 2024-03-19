@@ -26,7 +26,7 @@ public class ExtratoNegociacao {
 
     private String tipoMovimentacao;
 
-    private String cod_produto;
+    private String codProduto;
 
     private String instituicao;
 
@@ -40,7 +40,7 @@ public class ExtratoNegociacao {
 
         this.dataNegocio = ativos.getDataOperacao();
         this.tipoMovimentacao = ativos.getTipoMovimentacao();
-        this.cod_produto = ativos.getProduto();
+        this.codProduto = ativos.getProduto();
         this.instituicao = ativos.getInstituicao();
         this.quantidade = ativos.getQuantidade();
         this.precoUnitario = ativos.getPrecoUnitario();
