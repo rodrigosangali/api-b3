@@ -9,7 +9,7 @@ import java.util.List;
 public interface ExtratoNegociacaoRepository extends JpaRepository<ExtratoNegociacao, Long> {
     List<ExtratoNegociacao> findByCodProduto(String produto);
 
-    @Query(value ="select s from ExtratoNegociacao s WHERE s.codProduto = :produto")
+    @Query(value ="select SUM(s.valorOperacao) from ExtratoNegociacao s WHERE s.codProduto = :produto")
     List<ExtratoNegociacao> procuraPorProduto(String produto);
 
 
