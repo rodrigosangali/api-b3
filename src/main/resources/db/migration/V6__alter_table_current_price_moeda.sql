@@ -1,0 +1,2 @@
+ALTER TABLE current_price
+ADD COLUMN moeda CHAR(3) NOT NULL;

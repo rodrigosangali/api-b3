@@ -62,4 +62,10 @@ public class Extrato {
 
         return negociacaoService.consultaResumoAtivo() ;
     }
+
+    @PostMapping(value = "/split")
+    public void splitAtivos(){
+
+
+    }
 }
