@@ -1,5 +1,6 @@
 package com.sangali.apib3.entity;
 
+import com.sangali.apib3.model.SplitRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,5 +25,14 @@ public class Split {
     private LocalDate dataSplit;
 
     private Integer multiplo;
+
+    private Boolean process;
+
+    public Split(SplitRequest splitRequest){
+        this.produto = splitRequest.getProduto();
+        this.dataSplit = splitRequest.getDataSplit();
+        this.multiplo = splitRequest.getMultiplo();
+
+    }
 
 }

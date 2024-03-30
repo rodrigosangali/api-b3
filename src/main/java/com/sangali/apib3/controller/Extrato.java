@@ -1,25 +1,23 @@
 package com.sangali.apib3.controller;
 
 import com.sangali.apib3.entity.ExtratoNegociacao;
+import com.sangali.apib3.entity.Split;
 import com.sangali.apib3.model.LinhaExcel;
 import com.sangali.apib3.model.Negociacao;
-import com.sangali.apib3.model.SumarizacaoDTO;
+import com.sangali.apib3.model.SplitRequest;
 import com.sangali.apib3.repository.ExtratoNegociacaoRepository;
 
+import com.sangali.apib3.repository.SplitRepository;
 import com.sangali.apib3.service.NegociacaoService;
 import com.sangali.apib3.service.RealExcelFileService;
+import com.sangali.apib3.service.SplitService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("extrato")
@@ -28,9 +26,17 @@ public class Extrato {
     @Autowired
     ExtratoNegociacaoRepository extratoNegociacaoRepository;
 
+    @Autowired
+    SplitRepository splitRepository;
+
     RealExcelFileService realExcelFileService;
     @Autowired
     private NegociacaoService negociacaoService;
+
+    @Autowired
+    private SplitService splitService;
+
+
 
     @PostMapping(value = "/negociacao")
     @Transactional
@@ -64,8 +70,27 @@ public class Extrato {
     }
 
     @PostMapping(value = "/split")
-    public void splitAtivos(){
+    @Transactional
+    public void splitAtivos(@RequestBody SplitRequest splitRequest) {
 
+        splitRepository.save(new Split(splitRequest));
 
     }
+
+    @PostMapping(value= "/split/b3/processing")
+    @Transactional
+    public void processarSplit(){
+
+        splitService.executarSplitB3();
+
+    }
+
+    @PostMapping(value= "/split/processing")
+    @Transactional
+    public void processarSplitStock(){
+
+        splitService.executarSplitStock();
+
+    }
+
 }

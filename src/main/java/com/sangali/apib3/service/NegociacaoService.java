@@ -12,6 +12,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static org.apache.el.lang.ELArithmetic.divide;
+
 @Service
 public class NegociacaoService {
 
@@ -78,7 +81,15 @@ public class NegociacaoService {
             try {
 
                 negociacao.setQuantidade(Integer.parseInt(sumarizadoporProduto.get("somaQuantidade").toString()));
-                negociacao.setValorOperacao((BigDecimal) sumarizadoporProduto.get("somaValorOperacao"));
+                // Se uma ação foi vendidade faço a soma do valor operacao pela quantidade de ações antes da venda e depois multiplo pela quantidade atual
+                if(Integer.parseInt(sumarizadoporProduto.get("somaQuantidadeVendida").toString()) > 0){
+                    negociacao.setValorOperacao((BigDecimal) divide(sumarizadoporProduto.get("somaValorOperacao"),(negociacao.getQuantidade() + Integer.parseInt(sumarizadoporProduto.get("somaQuantidadeVendida").toString()))));
+                    negociacao.setValorOperacao(negociacao.getValorOperacao().multiply(BigDecimal.valueOf(negociacao.getQuantidade())));
+                }else{
+                    negociacao.setValorOperacao((BigDecimal) sumarizadoporProduto.get("somaValorOperacao"));
+                }
+
+
                 // Transformando o numero em positivo, vem negativo sempre
                 negociacao.setValorOperacao(negociacao.getValorOperacao().multiply(BigDecimal.valueOf(-1)));
                 negociacao.setValorOperacao(negociacao.getValorOperacao().multiply(BigDecimal.valueOf(4.98)));
