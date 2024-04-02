@@ -1,5 +1,6 @@
 package com.sangali.apib3.entity;
 
+import com.sangali.apib3.model.ExtratoNegociacaoRequest;
 import com.sangali.apib3.model.LinhaExcel;
 import jakarta.persistence.*;
 import lombok.*;
@@ -43,5 +44,16 @@ public class ExtratoNegociacao {
         this.quantidade = ativos.getQuantidade();
         this.precoUnitario = ativos.getPrecoUnitario();
         this.valorOperacao = ativos.getValorOperacao();
+    }
+
+    public ExtratoNegociacao(ExtratoNegociacaoRequest negociacao) {
+        this.dataNegocio = negociacao.getDataNegocio();
+        this.tipoMovimentacao = negociacao.getTipoMovimentacao();
+        this.codProduto = negociacao.getCodProduto();
+        this.instituicao = negociacao.getInstituicao();
+        this.quantidade = negociacao.getQuantidade();
+        this.precoUnitario = negociacao.getPrecoUnitario();
+        this. valorOperacao = negociacao.getValorOperacao();
+
     }
 }

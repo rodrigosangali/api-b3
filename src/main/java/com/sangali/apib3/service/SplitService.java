@@ -48,7 +48,7 @@ public class SplitService {
 
                 extratoNegociacaoRepository.save(extratoNegociacao);
 
-                splitRepository.atualizarProcess(p.getId(), true);
+                splitRepository.atualizarProcess( true, p.getId());
 
             }
 

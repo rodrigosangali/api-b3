@@ -2,6 +2,7 @@ package com.sangali.apib3.controller;
 
 import com.sangali.apib3.entity.ExtratoNegociacao;
 import com.sangali.apib3.entity.Split;
+import com.sangali.apib3.model.ExtratoNegociacaoRequest;
 import com.sangali.apib3.model.LinhaExcel;
 import com.sangali.apib3.model.Negociacao;
 import com.sangali.apib3.model.SplitRequest;
@@ -49,6 +50,15 @@ public class Extrato {
         });
     }
 
+    @PostMapping(value = "/negociacao/manual")
+    @Transactional
+    public void cadastrarExtratoNegociacaoManual(@RequestBody List<ExtratoNegociacaoRequest> negociacao) throws IOException {
+
+        negociacao.forEach( n -> {
+            extratoNegociacaoRepository.save(new ExtratoNegociacao(n));
+        });
+
+    }
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value = "/negociacao")
     public List<ExtratoNegociacao> consultarExtratoNegociacao() {
@@ -82,14 +92,6 @@ public class Extrato {
     public void processarSplit(){
 
         splitService.executarSplitB3();
-
-    }
-
-    @PostMapping(value= "/split/processing")
-    @Transactional
-    public void processarSplitStock(){
-
-        splitService.executarSplitStock();
 
     }
 

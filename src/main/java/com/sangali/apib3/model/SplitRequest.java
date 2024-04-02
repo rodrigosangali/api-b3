@@ -13,4 +13,6 @@ public class SplitRequest{
     private LocalDate dataSplit;
 
     private Integer multiplo;
+
+    private Boolean process;
 }

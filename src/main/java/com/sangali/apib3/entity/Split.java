@@ -32,6 +32,7 @@ public class Split {
         this.produto = splitRequest.getProduto();
         this.dataSplit = splitRequest.getDataSplit();
         this.multiplo = splitRequest.getMultiplo();
+        this.process = splitRequest.getProcess();
 
     }
 
