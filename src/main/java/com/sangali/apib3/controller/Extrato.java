@@ -65,6 +65,12 @@ public class Extrato {
         return extratoNegociacaoRepository.findAll();
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping(value = "/negociacao/data")
+    public Negociacao consultarExtratoNegociacaoporData(@RequestBody Negociacao negociacao) {
+       System.out.println("Chegou negociacao: " + negociacao);
+       return negociacao;
+    }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value = "/negociacao/{produto}")

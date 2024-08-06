@@ -92,13 +92,13 @@ public class NegociacaoService {
 
                 // Transformando o numero em positivo, vem negativo sempre
                 negociacao.setValorOperacao(negociacao.getValorOperacao().multiply(BigDecimal.valueOf(-1)));
-                negociacao.setValorOperacao(negociacao.getValorOperacao().multiply(BigDecimal.valueOf(4.98)));
+                negociacao.setValorOperacao(negociacao.getValorOperacao().multiply(BigDecimal.valueOf(5.13)));
                 negociacao.setPrecoMedio(negociacao.getValorOperacao().divide(BigDecimal.valueOf(negociacao.getQuantidade()), 4, RoundingMode.HALF_UP));
                 negociacao.setTotalProventos(somaTotalProventos);
-                currentPrice = currentPrice.multiply(BigDecimal.valueOf(4.98));
+                currentPrice = currentPrice.multiply(BigDecimal.valueOf(5.13));
                 negociacao.setPrecoAtual(currentPrice);
                 if (Objects.nonNull(negociacao.getValorOperacao()) && Objects.nonNull(negociacao.getTotalProventos())){
-                    negociacao.setTotalProventos(negociacao.getTotalProventos().multiply(BigDecimal.valueOf(4.98)));
+                    negociacao.setTotalProventos(negociacao.getTotalProventos().multiply(BigDecimal.valueOf(5.13)));
                     negociacao.setValorizacaoProventos(retornaPercentual(negociacao.getTotalProventos(), negociacao.getValorOperacao()));
                 }
 
