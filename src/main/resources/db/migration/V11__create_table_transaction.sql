@@ -1,7 +1,8 @@
 create table transactions(
 
     id bigint not null auto_increment,
-    data_pagamento date not null,
+    hash_transaction VARCHAR(40) not null,
+    data_operacao date not null,
     produto varchar(100) not null,
     tipo_evento varchar(50) not null,
     quantidade bigint not null,
