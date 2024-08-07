@@ -24,4 +24,9 @@ public interface TransactionsRepository extends JpaRepository<Transactions, Long
 
     @Query(value = "SELECT SUM(t.valorOperacao) from Transactions t where t.produto = :produto AND (t.tipoEvento LIKE \"%DIVIDEND%\" OR t.tipoEvento LIKE \"W-8 WITHHOLDING%\")")
     BigDecimal somaTotalProvento(String produto);
+
+
+    // Consulta personalizada para verificar a existência de um registro pelo hash
+    @Query(value = "SELECT COUNT(*) > 0 from Transactions t where t.hashTransaction = :hash")
+    boolean existsByHash(String hash);
 }
