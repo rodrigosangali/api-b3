@@ -1,6 +1,7 @@
 package com.sangali.apib3.service;
 
 import com.sangali.apib3.entity.Transactions;
+import com.sangali.apib3.model.BrokerageTransactionDTO;
 import com.sangali.apib3.model.LinhaExcel;
 import com.sangali.apib3.repository.TransactionsRepository;
 import com.sangali.apib3.utils.SHA1HasGenerator;
@@ -18,6 +19,8 @@ public class TransactionsService {
     private TransactionsRepository transactionsRepository;
 
     RealExcelFileService realExcelFileService;
+
+    ReadJsonService readJsonService;
 
     public  void cadastrarTransacao() throws IOException {
 
@@ -51,6 +54,17 @@ public class TransactionsService {
         });
         log.info("Quantidade de linhas inseridas: " + linhasExcel.size());
         System.out.println("Quantidade de linhas inseridas: " + linhasExcel.size());
+    }
+
+    public void cadastrarTransacaoJson(){
+        readJsonService = new ReadJsonService();
+
+        List<BrokerageTransactionDTO> transacoes = readJsonService.lerArquivoJson();
+
+        transacoes.forEach(transacao -> {
+            transactionsRepository.save(new Transactions(transacao));
+        });
+
     }
 
 }

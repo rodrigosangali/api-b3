@@ -24,4 +24,12 @@ public class TransactionsController {
         transactionsService.cadastrarTransacao();
 
     }
+
+    @PostMapping(value = "/json")
+    @Transactional
+    public void cadastrarTransactionJson() throws IOException {
+
+        transactionsService.cadastrarTransacaoJson();
+
+    }
 }

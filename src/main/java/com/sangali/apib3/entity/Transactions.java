@@ -1,5 +1,6 @@
 package com.sangali.apib3.entity;
 
+import com.sangali.apib3.model.BrokerageTransactionDTO;
 import com.sangali.apib3.model.LinhaExcel;
 import com.sangali.apib3.utils.SHA1HasGenerator;
 import jakarta.persistence.*;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.ZoneId;
 
 @Table(name = "transactions")
 @Entity(name = "Transactions")
@@ -30,6 +32,8 @@ public class Transactions {
     private String produto;
 
     private String tipoEvento;
+
+    private String descricao;
 
     private Integer quantidade;
 
@@ -54,4 +58,23 @@ public class Transactions {
         this.precoUnitario = transactions.getPrecoUnitario();
         this.valorOperacao = transactions.getValorOperacao();
     }
+
+    public Transactions(BrokerageTransactionDTO transactions) {
+
+        this.hashTransaction = SHA1HasGenerator.generatorSHA1Hash(transactions.getDataOperacao()
+                + transactions.getTipoEvento()
+                + transactions.getProduto()
+                + transactions.getQuantidade()
+                + transactions.getPreco()
+                + transactions.getValorOperacao());
+
+        this.dataOperacao = transactions.getDataOperacao();
+        this.tipoEvento = transactions.getTipoEvento();
+        this.descricao = transactions.getDescricao();
+        this.produto = transactions.getProduto();
+        this.quantidade = Integer.valueOf(transactions.getQuantidade());
+        this.precoUnitario = new BigDecimal(String.valueOf(transactions.getPreco()));
+        this.valorOperacao = transactions.getValorOperacao();
+    }
+
 }
