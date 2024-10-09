@@ -5,6 +5,7 @@ import com.sangali.apib3.model.BrokerageTransactionDTO;
 import com.sangali.apib3.model.LinhaExcel;
 import com.sangali.apib3.repository.TransactionsRepository;
 import com.sangali.apib3.utils.SHA1HasGenerator;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,17 +15,17 @@ import java.util.Iterator;
 import java.util.List;
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class TransactionsService {
     @Autowired
     private TransactionsRepository transactionsRepository;
 
-    RealExcelFileService realExcelFileService;
+    private final RealExcelFileService realExcelFileService;
 
-    ReadJsonService readJsonService;
+    private final ReadJsonService readJsonService;
 
-    public  void cadastrarTransacao() throws IOException {
+    public void cadastrarTransacao() throws IOException {
 
-        realExcelFileService = new RealExcelFileService();
         // Le o execel na pasta
         List<LinhaExcel> linhasExcel = realExcelFileService.lerExcelTransactions();
 
@@ -57,7 +58,6 @@ public class TransactionsService {
     }
 
     public void cadastrarTransacaoJson(){
-        readJsonService = new ReadJsonService();
 
         List<BrokerageTransactionDTO> transacoes = readJsonService.lerArquivoJson();
 

@@ -20,7 +20,7 @@ public class TransactionsController {
     @PostMapping
     @Transactional
     public void cadastrarTransactions() throws IOException {
-
+        // Nao utiliza mais, antiga Ameritrade
         transactionsService.cadastrarTransacao();
 
     }
@@ -28,7 +28,7 @@ public class TransactionsController {
     @PostMapping(value = "/json")
     @Transactional
     public void cadastrarTransactionJson() throws IOException {
-
+        // Cadastrar dados da Charles Schwab via download de statement json
         transactionsService.cadastrarTransacaoJson();
 
     }

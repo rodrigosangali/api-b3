@@ -3,6 +3,8 @@ package com.sangali.apib3.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.sangali.apib3.utils.CustomLocalDateDeserializer;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +17,7 @@ import java.util.Objects;
 @Setter
 public class BrokerageTransactionDTO {
     @JsonProperty("Date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
+    @JsonDeserialize(using = CustomLocalDateDeserializer.class) // Usa o deserializer personalizado
     private LocalDate dataOperacao;
 
     @JsonProperty("Action")
