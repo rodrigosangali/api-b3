@@ -1,0 +1,1 @@
+ALTER TABLE transactions ADD PRIMARY KEY (hash_transaction);

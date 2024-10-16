@@ -22,9 +22,6 @@ import java.time.ZoneId;
 public class Transactions {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     private String hashTransaction;
 
     private LocalDate dataOperacao;
