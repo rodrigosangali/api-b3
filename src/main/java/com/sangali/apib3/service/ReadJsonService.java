@@ -62,25 +62,25 @@ public class ReadJsonService {
                             + transaction.getQuantidade()
                             + transaction.getPreco());
 
-            if(listTransaction.containsKey(key)){
-                   BigDecimal amount = listTransaction.get(key).getValorOperacao().add(transaction.getValorOperacao());
-                   transaction.setValorOperacao(amount.toString());
-                   listTransaction.put(key,transaction);
+            // Soma os valores se a chave já existir
+            listTransaction.merge(key, transaction, (existingTransaction, newTransaction) -> {
+                BigDecimal amount = existingTransaction.getValorOperacao().add(newTransaction.getValorOperacao());
+                existingTransaction.setValorOperacao(String.valueOf(amount));
+                return existingTransaction;
+            });
 
-            }else {
-                listTransaction.put(key, transaction);
-            }
         });
 
-        BigDecimal totalTransactionsAmount = BigDecimal.ZERO;
-        for(Map.Entry<String, BrokerageTransactionDTO> entry : listTransaction.entrySet()) {
-                BrokerageTransactionDTO transactionAmount = entry.getValue();
-                totalTransactionsAmount = totalTransactionsAmount.add(transactionAmount.getValorOperacao());
+        // Calcula o total das transações
+        BigDecimal totalTransactionsAmount = listTransaction.values().stream()
+                .map(BrokerageTransactionDTO::getValorOperacao)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        }
-        // confere os valores totais
-        if (!totalTransaction.replace("$", "").replace(",", "").equals(totalTransactionsAmount.toString())) {
-            throw new RuntimeException();
+        // Confere os valores totais
+        BigDecimal totalTransactionAmount = new BigDecimal(totalTransaction.replace("$", "").replace(",", ""));
+
+        if (totalTransactionAmount.compareTo(totalTransactionsAmount) != 0) {
+            throw new RuntimeException("Total das transações não conferem!");
         }
 
         return listTransaction;
