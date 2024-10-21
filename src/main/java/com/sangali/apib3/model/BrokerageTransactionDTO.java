@@ -6,7 +6,9 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.sangali.apib3.utils.CustomLocalDateDeserializer;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -15,6 +17,8 @@ import java.util.Objects;
 
 @Getter
 @Setter
+@ToString
+@RequiredArgsConstructor
 public class BrokerageTransactionDTO {
     @JsonProperty("Date")
     @JsonDeserialize(using = CustomLocalDateDeserializer.class) // Usa o deserializer personalizado

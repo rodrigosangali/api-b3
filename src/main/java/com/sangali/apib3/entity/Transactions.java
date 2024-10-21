@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.ZoneId;
+import java.util.Map;
 
 @Table(name = "transactions")
 @Entity(name = "Transactions")
@@ -41,13 +41,6 @@ public class Transactions {
 
     public Transactions(LinhaExcel transactions) {
 
-        this.hashTransaction = SHA1HasGenerator.generatorSHA1Hash(transactions.getDataOperacao()
-                        + transactions.getTipoMovimentacao()
-                        + transactions.getProduto()
-                        + transactions.getQuantidade()
-                        + transactions.getPrecoUnitario()
-                        + transactions.getValorOperacao());
-
         this.dataOperacao = transactions.getDataOperacao();
         this.tipoEvento = transactions.getTipoMovimentacao();
         this.produto = transactions.getProduto();
@@ -56,15 +49,9 @@ public class Transactions {
         this.valorOperacao = transactions.getValorOperacao();
     }
 
-    public Transactions(BrokerageTransactionDTO transactions) {
+    public Transactions(String key, BrokerageTransactionDTO transactions) {
 
-        this.hashTransaction = SHA1HasGenerator.generatorSHA1Hash(transactions.getDataOperacao()
-                + transactions.getTipoEvento()
-                + transactions.getProduto()
-                + transactions.getQuantidade()
-                + transactions.getPreco()
-                + transactions.getValorOperacao());
-
+        this.hashTransaction = key;
         this.dataOperacao = transactions.getDataOperacao();
         this.tipoEvento = transactions.getTipoEvento();
         this.descricao = transactions.getDescricao();

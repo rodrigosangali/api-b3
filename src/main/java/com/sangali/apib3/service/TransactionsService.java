@@ -11,8 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -59,10 +63,11 @@ public class TransactionsService {
 
     public void cadastrarTransacaoJson(){
 
-        List<BrokerageTransactionDTO> transacoes = readJsonService.lerArquivoJson();
+        Map<String,BrokerageTransactionDTO> transacoes = readJsonService.lerArquivoJson();
 
-        transacoes.forEach(transacao -> {
-            transactionsRepository.save(new Transactions(transacao));
+        transacoes.forEach( (key, transacao) -> {
+            transactionsRepository.save(new Transactions(key, transacao));
+
         });
 
     }
